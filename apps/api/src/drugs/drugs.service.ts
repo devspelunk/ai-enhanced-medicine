@@ -4,7 +4,8 @@ import { Repository } from 'typeorm'
 import { Drug } from './drugs.entity'
 import { DrugLabel } from './drug-label.entity'
 import { AIEnhancedContent } from '../ai-content/ai-enhanced-content.entity'
-import { DrugSearchFilters, DrugSearchResult } from '@drug-platform/shared'
+import { DrugSearchDto, CreateDrugDto, UpdateDrugDto } from './dto'
+import { v4 as uuidv4 } from 'uuid'
 
 @Injectable()
 export class DrugsService {
@@ -19,7 +20,7 @@ export class DrugsService {
     private aiContentRepository: Repository<AIEnhancedContent>
   ) {}
 
-  async findAll(filters: DrugSearchFilters): Promise<DrugSearchResult> {
+  async findAll(filters: DrugSearchDto) {
     try {
       const queryBuilder = this.drugRepository
         .createQueryBuilder('drug')
@@ -30,75 +31,62 @@ export class DrugsService {
       if (filters.query) {
         queryBuilder.andWhere(
           `(
-            drug.name ILIKE :query OR 
+            drug.drugName ILIKE :query OR 
             drug.genericName ILIKE :query OR 
-            drug.manufacturer ILIKE :query OR
-            label.indications ILIKE :query
+            drug.labeler ILIKE :query OR
+            label.indicationsAndUsage ILIKE :query
           )`,
           { query: `%${filters.query}%` }
         )
       }
 
       // Apply filters
-      if (filters.manufacturer) {
-        queryBuilder.andWhere('drug.manufacturer ILIKE :manufacturer', {
-          manufacturer: `%${filters.manufacturer}%`
+      if (filters.labeler) {
+        queryBuilder.andWhere('drug.labeler ILIKE :labeler', {
+          labeler: `%${filters.labeler}%`
         })
       }
 
-      if (filters.dosageForm) {
-        queryBuilder.andWhere('drug.dosageForm = :dosageForm', {
-          dosageForm: filters.dosageForm
+      if (filters.productType) {
+        queryBuilder.andWhere('label.productType = :productType', {
+          productType: filters.productType
         })
       }
 
-      if (filters.indication) {
-        queryBuilder.andWhere('label.indications ILIKE :indication', {
-          indication: `%${filters.indication}%`
+      if (filters.genericName) {
+        queryBuilder.andWhere('label.genericName ILIKE :genericName', {
+          genericName: `%${filters.genericName}%`
         })
       }
 
-      // Apply sorting
-      switch (filters.sortBy) {
-        case 'name':
-          queryBuilder.orderBy('drug.name', filters.sortOrder.toUpperCase() as 'ASC' | 'DESC')
-          break
-        case 'manufacturer':
-          queryBuilder.orderBy('drug.manufacturer', filters.sortOrder.toUpperCase() as 'ASC' | 'DESC')
-          break
-        case 'approval_date':
-          queryBuilder.orderBy('drug.approvalDate', filters.sortOrder.toUpperCase() as 'ASC' | 'DESC')
-          break
-        default:
-          // For relevance, order by enhanced content score if available
-          queryBuilder.orderBy('enhancedContent.contentScore', 'DESC')
-          queryBuilder.addOrderBy('drug.name', 'ASC')
-      }
+      // Apply sorting - default by relevance and content score
+      queryBuilder.orderBy('enhancedContent.contentScore', 'DESC')
+      queryBuilder.addOrderBy('drug.drugName', 'ASC')
 
       // Apply pagination
       const total = await queryBuilder.getCount()
-      const totalPages = Math.ceil(total / filters.limit)
+      const totalPages = Math.ceil(total / (filters.limit || 20))
       
       queryBuilder
-        .skip((filters.page - 1) * filters.limit)
-        .take(filters.limit)
+        .skip(((filters.page || 1) - 1) * (filters.limit || 20))
+        .take(filters.limit || 20)
 
       const drugs = await queryBuilder.getMany()
 
       return {
         drugs: drugs.map(drug => ({
           ...drug,
-          enhancedContent: drug.enhancedContent?.[0] ? {
-            seoTitle: drug.enhancedContent[0].seoTitle,
-            metaDescription: drug.enhancedContent[0].metaDescription,
-            contentScore: drug.enhancedContent[0].contentScore
+          enhancedContent: drug.enhancedContent ? {
+            seoTitle: drug.enhancedContent.seoTitle,
+            metaDescription: drug.enhancedContent.metaDescription,
+            contentScore: drug.enhancedContent.contentScore
           } : undefined
         })),
         total,
-        page: filters.page,
+        page: filters.page || 1,
         totalPages,
-        hasNext: filters.page < totalPages,
-        hasPrev: filters.page > 1
+        hasNext: (filters.page || 1) < totalPages,
+        hasPrev: (filters.page || 1) > 1
       }
     } catch (error) {
       this.logger.error('Error searching drugs:', error)
@@ -126,11 +114,8 @@ export class DrugsService {
 
   async findBySlug(slug: string): Promise<Drug> {
     try {
-      // Extract name from slug (e.g., "taltz-ixekizumab" -> "taltz")
-      const drugName = slug.split('-')[0].toUpperCase()
-      
       const drug = await this.drugRepository.findOne({
-        where: { name: drugName },
+        where: { slug },
         relations: ['label', 'enhancedContent']
       })
 
@@ -168,10 +153,10 @@ export class DrugsService {
         .leftJoinAndSelect('drug.enhancedContent', 'enhancedContent')
         .where('drug.id != :drugId', { drugId })
         .andWhere(
-          '(drug.manufacturer = :manufacturer OR drug.dosageForm = :dosageForm)',
+          '(drug.labeler = :labeler OR label.productType = :productType)',
           {
-            manufacturer: drug.manufacturer,
-            dosageForm: drug.dosageForm
+            labeler: drug.labeler,
+            productType: drug.label?.productType
           }
         )
         .orderBy('enhancedContent.contentScore', 'DESC')
@@ -183,9 +168,44 @@ export class DrugsService {
     }
   }
 
-  generateSlug(drug: Drug): string {
-    const name = drug.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
-    const generic = drug.genericName?.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+  async create(createDrugDto: CreateDrugDto): Promise<Drug> {
+    try {
+      const drug = this.drugRepository.create({
+        ...createDrugDto,
+        id: uuidv4()
+      })
+      return await this.drugRepository.save(drug)
+    } catch (error) {
+      this.logger.error('Error creating drug:', error)
+      throw error
+    }
+  }
+
+  async update(id: string, updateDrugDto: UpdateDrugDto): Promise<Drug> {
+    try {
+      await this.drugRepository.update(id, updateDrugDto)
+      return this.findOne(id)
+    } catch (error) {
+      this.logger.error(`Error updating drug ${id}:`, error)
+      throw error
+    }
+  }
+
+  async remove(id: string): Promise<void> {
+    try {
+      const result = await this.drugRepository.delete(id)
+      if (result.affected === 0) {
+        throw new NotFoundException(`Drug with ID ${id} not found`)
+      }
+    } catch (error) {
+      this.logger.error(`Error deleting drug ${id}:`, error)
+      throw error
+    }
+  }
+
+  generateSlug(drugName: string, genericName?: string): string {
+    const name = drugName.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+    const generic = genericName?.toLowerCase().replace(/[^a-z0-9]+/g, '-')
     return generic ? `${name}-${generic}` : name
   }
 }

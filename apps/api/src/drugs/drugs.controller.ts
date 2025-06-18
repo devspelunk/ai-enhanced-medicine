@@ -1,7 +1,7 @@
-import { Controller, Get, Param, Query, ValidationPipe } from '@nestjs/common'
+import { Controller, Get, Post, Put, Delete, Param, Query, Body, ValidationPipe } from '@nestjs/common'
 import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger'
 import { DrugsService } from './drugs.service'
-import type { DrugSearchFilters } from '@drug-platform/shared'
+import { DrugSearchDto, CreateDrugDto, UpdateDrugDto } from './dto'
 
 @ApiTags('drugs')
 @Controller('drugs')
@@ -11,13 +11,16 @@ export class DrugsController {
   @Get()
   @ApiOperation({ summary: 'Search and filter drugs' })
   @ApiResponse({ status: 200, description: 'Returns paginated drug results' })
-  @ApiQuery({ name: 'query', required: false, description: 'Search query' })
-  @ApiQuery({ name: 'manufacturer', required: false, description: 'Filter by manufacturer' })
-  @ApiQuery({ name: 'dosageForm', required: false, description: 'Filter by dosage form' })
-  @ApiQuery({ name: 'page', required: false, description: 'Page number' })
-  @ApiQuery({ name: 'limit', required: false, description: 'Items per page' })
-  async searchDrugs(@Query(ValidationPipe) filters: DrugSearchFilters) {
+  async searchDrugs(@Query(ValidationPipe) filters: DrugSearchDto) {
     return this.drugsService.findAll(filters)
+  }
+
+  @Post()
+  @ApiOperation({ summary: 'Create a new drug' })
+  @ApiResponse({ status: 201, description: 'Drug created successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid input data' })
+  async createDrug(@Body() createDrugDto: CreateDrugDto) {
+    return this.drugsService.create(createDrugDto)
   }
 
   @Get('popular')
@@ -33,6 +36,30 @@ export class DrugsController {
   @ApiResponse({ status: 404, description: 'Drug not found' })
   async getDrug(@Param('id') id: string) {
     return this.drugsService.findOne(id)
+  }
+
+  @Get('slug/:slug')
+  @ApiOperation({ summary: 'Get drug by slug' })
+  @ApiResponse({ status: 200, description: 'Returns drug details' })
+  @ApiResponse({ status: 404, description: 'Drug not found' })
+  async getDrugBySlug(@Param('slug') slug: string) {
+    return this.drugsService.findBySlug(slug)
+  }
+
+  @Put(':id')
+  @ApiOperation({ summary: 'Update drug by ID' })
+  @ApiResponse({ status: 200, description: 'Drug updated successfully' })
+  @ApiResponse({ status: 404, description: 'Drug not found' })
+  async updateDrug(@Param('id') id: string, @Body() updateDrugDto: UpdateDrugDto) {
+    return this.drugsService.update(id, updateDrugDto)
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete drug by ID' })
+  @ApiResponse({ status: 200, description: 'Drug deleted successfully' })
+  @ApiResponse({ status: 404, description: 'Drug not found' })
+  async deleteDrug(@Param('id') id: string) {
+    return this.drugsService.remove(id)
   }
 
   @Get(':id/related')
