@@ -146,3 +146,6 @@ Thumbs.db
 *.weights
 *.h5
 *.onnx
+
+# Include web lib folder
+!apps/web/src/lib/
