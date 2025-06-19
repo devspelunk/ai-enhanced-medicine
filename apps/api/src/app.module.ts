@@ -7,6 +7,7 @@ import { AiContentModule } from './ai-content/ai-content.module'
 import { SearchModule } from './search/search.module'
 import { McpModule } from './mcp/mcp.module'
 import { DatabaseModule } from './database/database.module'
+import { JobQueueMainModule } from './job-queue/job-queue-main.module'
 
 @Module({
   imports: [
@@ -41,7 +42,8 @@ import { DatabaseModule } from './database/database.module'
     DrugsModule,
     AiContentModule,
     SearchModule,
-    McpModule
+    McpModule,
+    JobQueueMainModule
   ]
 })
 export class AppModule {}
