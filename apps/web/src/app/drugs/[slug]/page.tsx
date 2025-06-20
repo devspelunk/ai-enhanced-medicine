@@ -66,13 +66,14 @@ async function getDrugBySlug(slug: string) {
 }
 
 interface DrugPageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: DrugPageProps): Promise<Metadata> {
-  const drug = await getDrugBySlug(params.slug)
+  const { slug } = await params
+  const drug = await getDrugBySlug(slug)
   
   if (!drug) {
     return {
@@ -102,13 +103,14 @@ export async function generateMetadata({ params }: DrugPageProps): Promise<Metad
       modifiedTime: drug.updatedAt.toISOString()
     },
     alternates: {
-      canonical: `/drugs/${params.slug}`
+      canonical: `/drugs/${slug}`
     }
   }
 }
 
 export default async function DrugPage({ params }: DrugPageProps) {
-  const drug = await getDrugBySlug(params.slug)
+  const { slug } = await params
+  const drug = await getDrugBySlug(slug)
   
   if (!drug) {
     notFound()

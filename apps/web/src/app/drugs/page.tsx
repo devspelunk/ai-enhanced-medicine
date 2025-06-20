@@ -90,7 +90,7 @@ export default function DrugsPage() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {popularDrugs?.map((drug) => (
+                {popularDrugs?.map((drug: any) => (
                   <DrugCard key={drug.id} drug={drug as Drug & { enhancedContent?: any; relevanceScore?: number }} />
                 ))}
               </div>
@@ -175,7 +175,7 @@ export default function DrugsPage() {
                     ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                     : "space-y-4"
                   }>
-                    {searchResults.drugs.map((drug) => (
+                    {searchResults.drugs.map((drug: any) => (
                       <DrugCard 
                         key={drug.id} 
                         drug={drug as Drug & { enhancedContent?: any; relevanceScore?: number }}
