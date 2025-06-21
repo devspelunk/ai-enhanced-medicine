@@ -23,8 +23,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/components/*": ["./src/components/*", "../../components/*"],
-      "@/lib/*": ["../../lib/*"],
-      "@/hooks/*": ["../../hooks/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/hooks/*": ["./src/hooks/*"],
       "@drug-platform/shared": ["../../packages/shared/src"]
     }
   },

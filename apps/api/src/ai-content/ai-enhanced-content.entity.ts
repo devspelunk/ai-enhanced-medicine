@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm'
 import { Drug } from '../drugs/drugs.entity'
 
 @Entity('ai_enhanced_content')
@@ -6,49 +6,49 @@ export class AIEnhancedContent {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column()
+  @Column({ name: 'drug_id' })
   drugId: string
 
-  @Column({ length: 70 })
+  @Column({ name: 'seo_title', length: 70 })
   seoTitle: string
 
-  @Column({ length: 160 })
+  @Column({ name: 'meta_description', length: 160 })
   metaDescription: string
 
-  @Column('text', { nullable: true })
+  @Column({ name: 'enhanced_indications', type: 'text', nullable: true })
   enhancedIndications?: string
 
-  @Column('text', { nullable: true })
+  @Column({ name: 'patient_friendly_description', type: 'text', nullable: true })
   patientFriendlyDescription?: string
 
-  @Column('text', { nullable: true })
+  @Column({ name: 'provider_friendly_explanation', type: 'text', nullable: true })
   providerFriendlyExplanation?: string
 
-  @Column('text', { array: true, default: [] })
+  @Column({ name: 'related_conditions', type: 'text', array: true, default: () => "'{}'"})
   relatedConditions: string[]
 
-  @Column('text', { array: true, default: [] })
+  @Column({ name: 'related_drugs', type: 'text', array: true, default: () => "'{}'"})
   relatedDrugs: string[]
 
-  @Column('jsonb', { nullable: true })
+  @Column({ type: 'jsonb', nullable: true })
   faqs?: Array<{ question: string; answer: string }>
 
-  @Column('jsonb', { nullable: true })
+  @Column({ name: 'structured_data', type: 'jsonb', nullable: true })
   structuredData?: Record<string, any>
 
-  @Column('integer', { nullable: true })
-  contentScore?: number
+  @Column({ name: 'content_score', type: 'integer', default: 0 })
+  contentScore: number
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @Column({ name: 'last_enhanced', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   lastEnhanced: Date
 
-  @ManyToOne(() => Drug, drug => drug.enhancedContent)
-  @JoinColumn({ name: 'drugId' })
+  @OneToOne(() => Drug, drug => drug.enhancedContent)
+  @JoinColumn({ name: 'drug_id' })
   drug: Drug
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date
 }

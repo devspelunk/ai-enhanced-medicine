@@ -12,6 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { useSearchDrugs, useSearchSuggestions } from '@/hooks/use-search'
 import { useDrugStore } from '@/stores/drug-store'
+import type { Drug } from '@drug-platform/shared'
 
 export default function SearchPage() {
   const router = useRouter()
@@ -94,7 +95,7 @@ export default function SearchPage() {
               <div className="mt-4">
                 <p className="text-sm text-gray-600 mb-2">Suggestions:</p>
                 <div className="flex flex-wrap gap-2">
-                  {suggestions.slice(0, 5).map((suggestion, index) => (
+                  {suggestions.slice(0, 5).map((suggestion: string, index: number) => (
                     <Button
                       key={index}
                       variant="outline"
@@ -125,7 +126,7 @@ export default function SearchPage() {
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
-                {recentSearches.slice(0, 8).map((search, index) => (
+                {recentSearches.slice(0, 8).map((search: string, index: number) => (
                   <Badge
                     key={index}
                     variant="secondary"
@@ -168,7 +169,7 @@ export default function SearchPage() {
             {/* Loading State */}
             {isLoading && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {Array.from({ length: 6 }).map((_, i) => (
+                {Array.from({ length: 6 }).map((_: unknown, i: number) => (
                   <div key={i} className="space-y-3">
                     <Skeleton className="h-48 w-full rounded-lg" />
                     <Skeleton className="h-4 w-3/4" />
@@ -194,7 +195,7 @@ export default function SearchPage() {
                       <div>
                         <p className="text-sm text-gray-600 mb-2">Did you mean:</p>
                         <div className="flex flex-wrap gap-2 justify-center">
-                          {searchResults.suggestions.map((suggestion, index) => (
+                          {searchResults.suggestions.map((suggestion: string, index: number) => (
                             <Button
                               key={index}
                               variant="outline"
@@ -211,7 +212,7 @@ export default function SearchPage() {
                 ) : (
                   <>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {searchResults.drugs.map((drug) => (
+                      {searchResults.drugs.map((drug: Drug) => (
                         <DrugCard key={drug.id} drug={drug} />
                       ))}
                     </div>
@@ -227,7 +228,7 @@ export default function SearchPage() {
                         </CardHeader>
                         <CardContent>
                           <div className="flex flex-wrap gap-2">
-                            {searchResults.suggestions.map((suggestion, index) => (
+                            {searchResults.suggestions.map((suggestion: string, index: number) => (
                               <Button
                                 key={index}
                                 variant="outline"
