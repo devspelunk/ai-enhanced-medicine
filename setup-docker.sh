@@ -8,7 +8,7 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-echo -e "${BLUE}🚀 PrescribePoint Drug Information Platform Setup${NC}"
+echo -e "${BLUE}🚀 Medication Drug Information Platform Setup${NC}"
 echo -e "${BLUE}=================================================${NC}"
 
 # Function to check if command exists
@@ -90,7 +90,7 @@ create_env_file() {
     if [ ! -f ".env" ]; then
         echo -e "${BLUE}Creating .env file...${NC}"
         cat > .env << EOF
-# PrescribePoint Environment Variables
+# Medication Environment Variables
 
 # OpenAI API Key (required for AI content generation)
 OPENAI_API_KEY=${OPENAI_API_KEY:-your_openai_api_key_here}

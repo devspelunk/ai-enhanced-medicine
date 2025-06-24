@@ -1,12 +1,12 @@
-# Docker Setup Guide - PrescribePoint Drug Information Platform
+# Docker Setup Guide - Medication Drug Information Platform
 
-This guide will help you spin up the entire PrescribePoint platform using Docker Compose, including the Python seeder and AI content generation services.
+This guide will help you spin up the entire Medication platform using Docker Compose, including the Python seeder and AI content generation services.
 
 ## 🚀 Quick Start
 
 1. **Clone and navigate to the project:**
    ```bash
-   cd /path/to/PrescribePoint/code-exercise
+   cd /path/to/medication/code-exercise
    ```
 
 2. **Download FDA Labels data (Optional but recommended):**

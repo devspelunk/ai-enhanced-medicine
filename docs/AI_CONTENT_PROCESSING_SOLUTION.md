@@ -108,7 +108,7 @@ const delayedRetryConfig = {
 export class FallbackContentService {
   generateBasicSEOContent(drug: Drug, label: DrugLabel): AIEnhancedContent {
     return {
-      seoTitle: `${drug.name} - Drug Information | PrescribePoint`,
+      seoTitle: `${drug.name} - Drug Information | Medication`,
       metaDescription: `Complete prescribing information for ${drug.name}...`,
       // Template-based content using FDA label data
     };
