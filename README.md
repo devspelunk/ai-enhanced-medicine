@@ -1,6 +1,6 @@
-# PrescribePoint - AI-Enhanced Drug Information Platform
+# Medication Information Platform
 
-An AI-enhanced drug information publishing platform that processes FDA drug labels and creates SEO-optimized content pages for healthcare professionals.
+An AI-enhanced Medication information publishing platform that processes FDA drug labels and creates SEO-optimized content pages for healthcare professionals.
 
 ## Quick Start
 
@@ -107,7 +107,7 @@ pnpm docker:build   # Rebuild Docker images
 
 ## Key Features
 
-- **Drug Search:** Full-text search with advanced filtering
+- **Medication Search:** Full-text search with advanced filtering
 - **AI Content Enhancement:** GPT-4 powered SEO optimization
 - **Dynamic Pages:** Server-side rendered drug detail pages
 - **REST API:** Comprehensive API with Swagger documentation
