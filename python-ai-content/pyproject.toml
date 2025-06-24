@@ -3,7 +3,7 @@ name = "drug-ai-content-server"
 version = "1.0.0"
 description = "MCP server for AI-powered drug content generation"
 authors = [
-    {name = "PrescribePoint", email = "dev@prescribepoint.com"},
+    {name = "Medication", email = "dev@Medication.com"},
 ]
 dependencies = [
     "fastmcp>=0.2.0",

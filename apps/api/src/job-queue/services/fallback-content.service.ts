@@ -32,7 +32,7 @@ export class FallbackContentService {
     const dosageForm = drug.dosageForm ? ` (${drug.dosageForm})` : '';
     const strength = drug.strength ? ` ${drug.strength}` : '';
     
-    return `${drugName}${strength}${dosageForm} - Prescribing Information | PrescribePoint`;
+    return `${drugName}${strength}${dosageForm} - Prescribing Information | Medication`;
   }
 
   private generateMetaDescription(drug: Drug, label?: DrugLabel): string {
@@ -106,7 +106,7 @@ export class FallbackContentService {
         name: 'NDC',
         value: drug.ndc,
       },
-      url: `https://prescribepoint.com/drugs/${drug.slug}`,
+      url: `https://med.com/drugs/${drug.slug}`,
     };
   }
 

@@ -134,7 +134,7 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_USERNAME=postgres
 DB_PASSWORD=postgres
-DB_NAME=prescribepoint
+DB_NAME=medication
 
 # Redis Configuration  
 REDIS_URL=redis://localhost:6379
