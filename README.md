@@ -1,6 +1,22 @@
-# Medication Information Platform
+# Prescription Medication Information Platform
 
 An AI-enhanced Medication information publishing platform that processes FDA drug labels and creates SEO-optimized content pages for healthcare professionals.
+
+## Features
+
+- *Next.js 15 with App Router, React 19, Tailwind CSS (Currently being refactored after changing to Python FastMCP)
+- *NestJS with TypeORM, PostgreSQL, Redis (Currently being refactored after changing to Python FastMCP)
+- OpenAI GPT-4 with Model Context Protocol
+- PostgreSQL with full-text search capabilities
+- Redis for API responses and search results
+- Docker for containerization
+- Swagger for API documentation
+- AI content processing with GPT-4
+- Database seeding scripts
+- Job queue for content processing
+- Fallback content generation
+- SEO-optimized content pages
+- Real-time search with debouncing and caching
 
 ## Quick Start
 
