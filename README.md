@@ -124,6 +124,7 @@ pnpm docker:build   # Rebuild Docker images
 ## Key Features
 
 - **Medication Search:** Full-text search with advanced filtering
+- **Medication Search:** Full-text search with advanced filtering
 - **AI Content Enhancement:** GPT-4 powered SEO optimization
 - **Dynamic Pages:** Server-side rendered drug detail pages
 - **REST API:** Comprehensive API with Swagger documentation
@@ -150,6 +151,7 @@ DB_HOST=localhost
 DB_PORT=5432
 DB_USERNAME=postgres
 DB_PASSWORD=postgres
+DB_NAME=medication
 DB_NAME=medication
 
 # Redis Configuration  
