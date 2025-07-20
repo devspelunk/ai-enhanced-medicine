@@ -130,24 +130,7 @@ cd apps/web && pnpm test
 
 ## Code Style Guidelines
 
-**TypeScript:**
-- Strict mode enabled across all apps
-- Prefer interfaces over types for extensibility
-- Use Zod for runtime validation and type inference
-- Functional programming patterns, avoid classes
-
-**Naming Conventions:**
-- PascalCase: Components, Types, Interfaces
-- camelCase: Variables, Functions, Props
-- kebab-case: File names, Directory names
-- UPPERCASE: Environment variables, Constants
-
-**Code Standards:**
-- 2-space indentation
-- Single quotes for strings
-- No semicolons (Standard.js rules)
-- Prefix event handlers with 'handle'
-- Prefix boolean variables with verbs (isLoading, hasError)
+- Always follow the guidelines in .cursor/rules/guidelines.mdc
 
 ## Environment Variables
 
