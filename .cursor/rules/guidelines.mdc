@@ -1,0 +1,215 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+  You are an expert in TypeScript, JavaScript, NextJS 15, React 19, Node.js, NextJS App Router, Tanstack Query, Tanstack Tables, React Hook Forms, Zustand, Shadcn UI, Radix UI, Nuqs for URL State Management, and Tailwind.
+
+  Architecture
+  - Monorepo structure using pnpm workspaces
+  - Frontend: NextJS 15 with App Router
+  - Backend: NestJS
+  - Full TypeScript implementation with strict mode enabled
+  
+  Frontend Technical Stack:
+  - Zod for schema validation and type inference
+  - date-fns for date manipulation
+  - Zustand for global state management
+  - Nuqs for URL state management
+  - Tailwind CSS (latest) for styling
+  - Shadcn/UI components as primary UI library
+  - React Server Components by default
+
+  Code Style and Structure
+  - Write concise, maintainable, and technically accurate TypeScript code with relevant examples.
+  - Use functional and declarative programming patterns; avoid classes.
+  - Favor iteration and modularization to adhere to DRY principles and avoid code duplication.
+  - Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
+  - Emphasize type safety and static analysis
+  - Practice component-driven development
+
+  TypeScript Usage
+  - Use TypeScript for all code; prefer interfaces over types for their extendability and ability to merge.
+  - Avoid enums; use maps instead for better type safety and flexibility.
+  - Use functional components with TypeScript interfaces.
+
+  Standard.js Rules
+  - Use 2 space indentation.
+  - Use single quotes for strings except to avoid escaping.
+  - No semicolons (unless required to disambiguate statements).
+  - No unused variables.
+  - Add a space after keywords.
+  - Add a space before a function declaration's parentheses.
+  - Always use === instead of ==.
+  - Infix operators must be spaced.
+  - Commas should have a space after them.
+  - Keep else statements on the same line as their curly braces.
+  - For multi-line if statements, use curly braces.
+  - Always handle the err function parameter.
+  - Use camelcase for variables and functions.
+  - Use PascalCase for constructors and React components.
+
+  Naming Conventions
+  - Use PascalCase for:
+    - Components
+    - Type definitions
+    - Interfaces
+  - Use kebab-case for:
+    - Directory names (e.g., components/auth-wizard)
+    - File names (e.g., user-profile.tsx)
+  - Use camelCase for:
+    - Variables
+    - Functions
+    - Methods
+    - Hooks
+    - Properties
+    - Props
+  - Use UPPERCASE for:
+    - Environment variables
+    - Constants
+    - Global configurations
+
+  Specific Naming Patterns
+  - Prefix event handlers with 'handle': handleClick, handleSubmit
+  - Prefix boolean variables with verbs: isLoading, hasError, canSubmit
+  - Prefix custom hooks with 'use': useAuth, useForm
+  - Use complete words over abbreviations except for:
+    - err (error)
+    - req (request)
+    - res (response)
+    - props (properties)
+    - ref (reference)
+
+  React Best Practices
+  - Use functional components with prop-types for type checking.
+  - Use the "function" keyword for component definitions.
+  - Implement hooks correctly (useState, useEffect, useContext, useReducer, useMemo, useCallback).
+  - Follow the Rules of Hooks (only call hooks at the top level, only call hooks from React functions).
+  - Create custom hooks to extract reusable component logic.
+  - Use React.memo() for component memoization when appropriate.
+  - Implement useCallback for memoizing functions passed as props.
+  - Use useMemo for expensive computations.
+  - Avoid inline function definitions in render to prevent unnecessary re-renders.
+  - Prefer composition over inheritance.
+  - Use children prop and render props pattern for flexible, reusable components.
+  - Implement React.lazy() and Suspense for code splitting.
+  - Use refs sparingly and mainly for DOM access.
+  - Prefer controlled components over uncontrolled components.
+  - Implement error boundaries to catch and handle errors gracefully.
+  - Use cleanup functions in useEffect to prevent memory leaks.
+  - Use short-circuit evaluation and ternary operators for conditional rendering.
+
+  Next.js Best Practices
+  - Utilize App Router for routing
+  - Implement proper metadata management
+  - Use proper caching strategies
+  - Implement proper error boundaries
+
+  Components and Features
+  - Use Next.js built-in components:
+    - Image component for optimized images
+    - Link component for client-side navigation
+    - Script component for external scripts
+    - Head component for metadata
+  - Implement proper loading states
+  - Use proper data fetching methods
+
+  Server Components
+  - Default to Server Components
+  - Use URL query parameters for data fetching and server state management, prefer using Nuqs for
+  - Use 'use client' directive only when necessary:
+    - Event listeners
+    - Browser APIs
+    - State management
+    - Client-side-only libraries
+
+  TypeScript Implementation
+  - Enable strict mode
+  - Define clear interfaces for component props, state, and Redux state structure.
+  - Use type guards to handle potential undefined or null values safely.
+  - Apply generics to functions, actions, and slices where type flexibility is needed.
+  - Utilize TypeScript utility types (Partial, Pick, Omit) for cleaner and reusable code.
+  - Prefer interface over type for defining object structures, especially when extending.
+  - Use mapped types for creating variations of existing types dynamically.
+
+  State Management
+  - Use Zustand for global state management.
+  - Lift state up when needed to share state between components.
+  - Use context for intermediate state sharing when prop drilling becomes cumbersome.
+
+  UI and Styling
+  - Use Shadcn UI and Radix UI for component foundations.
+  - Implement responsive design with Tailwind CSS; use a mobile-first approach.
+  - Use Tailwind for utility classes and rapid prototyping.
+
+  Performance Optimization
+  - Optimize Core Web Vitals
+  - Implement proper caching strategies
+  - Use React Server Components (RSC) over client-side fetching of data. Fetching should occur on navigation pages.
+  - Wrap client components in Suspense with fallback.
+  - Use dynamic loading for non-critical components.
+  - Optimize images: use WebP format, include size data, implement lazy loading.
+  - Minimize the use of global styles; prefer modular, scoped styles.
+
+  Forms and Validation
+  - Use controlled components for form inputs.
+  - Implement form validation (client-side and server-side).
+  - Consider using libraries like Tanstack Forms for complex forms.
+  - Use Zod for schema validation.
+
+  Error Handling and Validation
+  - Prioritize error handling and edge cases.
+  - Handle errors and edge cases at the beginning of functions.
+  - Use early returns for error conditions to avoid deeply nested if statements.
+  - Place the happy path last in the function for improved readability.
+  - Avoid unnecessary else statements; use if-return pattern instead.
+  - Use guard clauses to handle preconditions and invalid states early.
+  - Implement proper error logging and user-friendly error messages.
+  - Model expected errors as return values in Server Actions.
+
+  Accessibility (a11y)
+  - Use semantic HTML elements.
+  - Implement proper ARIA attributes.
+  - Ensure keyboard navigation support.
+  - Manage focus order and visibility effectively.
+  - Maintain accessible color contrast ratios.
+  - Follow a logical heading hierarchy.
+  - Make all interactive elements accessible.
+  - Provide clear and accessible error feedback.
+
+  Testing
+  - Write unit tests for components using Jest and React Testing Library.
+  - Implement integration tests for critical user flows.
+  - Use snapshot testing judiciously.
+  - Follow patterns like Arrange-Act-Assert to ensure clarity and consistency in tests.
+  - Mock external dependencies and API calls to isolate unit tests.
+
+  Security
+  - Implement input sanitization to prevent XSS attacks.
+  - Use DOMPurify for sanitizing HTML content.
+  - Use proper authentication methods.
+
+  Internationalization (i18n)
+  - Use next-i18next for translations
+  - Implement proper locale detection
+  - Use proper number and date formatting
+  - Implement proper RTL support
+  - Use proper currency formatting
+
+  Documentation
+  - Use JSDoc for documentation
+  - Document all public functions, classes, methods, and interfaces
+  - Add examples when appropriate
+  - Use complete sentences with proper punctuation
+  - Keep descriptions clear and concise
+  - Use proper markdown formatting
+  - Use proper code blocks
+  - Use proper links
+  - Use proper headings
+  - Use proper lists
+
+  Key Conventions
+  - Use 'nuqs' for URL search parameter state management.
+  - Optimize Web Vitals (LCP, CLS, FID).
+    

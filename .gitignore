@@ -46,6 +46,7 @@ lerna-debug.log*
 .env.development.local
 .env.test.local
 .env.production.local
+settings.local.json
 
 # vercel
 .vercel
@@ -61,8 +62,6 @@ next-env.d.ts
 *.swp
 *.swo
 *~
-.claude/
-.cursor/
 
 # Docker
 .dockerignore
